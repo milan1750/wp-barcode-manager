@@ -1,0 +1,621 @@
+/*!**********************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./assets/css/style.scss ***!
+  \**********************************************************************************************************************************************************************************************************************************************/
+/* ------------------- Base ------------------- */
+.wbm-app {
+  font-family: "Inter", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+  background: #f9f9f9;
+  min-height: 100vh;
+  padding: 30px 40px;
+}
+.wbm-app h1,
+.wbm-app h2,
+.wbm-app h3 {
+  color: #0073aa;
+  margin-top: 0;
+}
+.wbm-app h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+.wbm-app h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.wbm-app h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 20px 0 10px;
+}
+.wbm-app {
+  /* ------------------- Tabs ------------------- */
+}
+.wbm-app .wbm-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+.wbm-app .wbm-tabs button {
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #ccc;
+  background: #f1f1f1;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.wbm-app .wbm-tabs button:hover:not(.active) {
+  background: #e0e0e0;
+}
+.wbm-app .wbm-tabs button.active {
+  background: #0073aa;
+  color: #fff;
+  border-color: #0073aa;
+}
+.wbm-app {
+  /* ------------------- Buttons ------------------- */
+}
+.wbm-app .wbm-add-btn,
+.wbm-app button {
+  padding: 6px 14px;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid #0073aa;
+  background: #0073aa;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.wbm-app .wbm-add-btn:hover,
+.wbm-app button:hover {
+  background: #005f8d;
+  border-color: #005f8d;
+}
+.wbm-app .wbm-add-btn:disabled,
+.wbm-app button:disabled {
+  background: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+.wbm-app .wbm-add-btn.delete-btn,
+.wbm-app button.delete-btn {
+  background: #dc3232;
+  border-color: #dc3232;
+}
+.wbm-app .wbm-add-btn.delete-btn:hover,
+.wbm-app button.delete-btn:hover {
+  background: #a52828;
+  border-color: #a52828;
+}
+.wbm-app {
+  /* ------------------- Import/Export ------------------- */
+}
+.wbm-app .wbm-import-export-tab {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.wbm-app .wbm-import-export-tab .wbm-import-export-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.wbm-app .wbm-import-export-tab .wbm-import-export-actions .wbm-dropzone {
+  min-width: 250px;
+  min-height: 50px;
+  border: 2px dashed #0073aa;
+  border-radius: 6px;
+  padding: 20px;
+  text-align: left;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.wbm-app .wbm-import-export-tab .wbm-import-export-actions .wbm-dropzone.dragging {
+  background: #e6f0fa;
+}
+.wbm-app .wbm-import-export-tab .wbm-import-export-actions .wbm-dropzone p {
+  text-align: center;
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #333;
+}
+.wbm-app .wbm-import-export-tab .wbm-import-export-actions button {
+  padding: 0 50px;
+  border-radius: 10px;
+  margin: 0;
+}
+.wbm-app .wbm-import-export-tab .wbm-table-wrapper {
+  width: 100%;
+  max-height: 600px; /* vertical scroll for long tables */
+  overflow-x: auto; /* horizontal scroll for wide tables */
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+.wbm-app .wbm-import-export-tab .wbm-table {
+  width: 100%;
+  min-width: 800px; /* prevent columns from collapsing */
+  border-collapse: collapse;
+  table-layout: fixed; /* evenly distribute column widths */
+}
+.wbm-app .wbm-import-export-tab .wbm-table th,
+.wbm-app .wbm-import-export-tab .wbm-table td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  font-size: 14px;
+  text-align: left;
+  vertical-align: top;
+  word-break: break-word;
+}
+.wbm-app .wbm-import-export-tab .wbm-table th {
+  background: #f1f1f1;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.wbm-app .wbm-import-export-tab .wbm-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+.wbm-app .wbm-import-export-tab .wbm-table tr:hover {
+  background: #f1f1f1;
+}
+.wbm-app .wbm-import-export-tab .wbm-table button {
+  padding: 4px 10px;
+  font-size: 13px;
+  margin-right: 5px;
+}
+.wbm-app {
+  /* ------------------- Table ------------------- */
+}
+.wbm-app .wbm-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+.wbm-app .wbm-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  margin: 20px 0;
+  min-width: 800px;
+}
+.wbm-app .wbm-table th,
+.wbm-app .wbm-table td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  font-size: 14px;
+  text-align: left;
+  vertical-align: top;
+  word-break: break-word;
+}
+.wbm-app .wbm-table th {
+  background: #f1f1f1;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.wbm-app .wbm-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+.wbm-app .wbm-table tr:hover {
+  background: #f1f1f1;
+}
+.wbm-app .wbm-table button {
+  padding: 4px 10px;
+  font-size: 13px;
+  margin-right: 5px;
+}
+.wbm-app {
+  /* ------------------- Pagination ------------------- */
+}
+.wbm-app .wbm-pagination {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 20px;
+}
+.wbm-app .wbm-pagination button {
+  padding: 4px 10px;
+  background: #0073aa;
+  color: #fff;
+  border: 1px solid #0073aa;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+}
+.wbm-app .wbm-pagination button:hover:not(:disabled) {
+  background: #005f8d;
+  border-color: #005f8d;
+}
+.wbm-app .wbm-pagination button:disabled {
+  background: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+.wbm-app .wbm-pagination span {
+  font-size: 14px;
+  font-weight: 500;
+}
+.wbm-app {
+  /* ------------------- Forms ------------------- */
+}
+.wbm-app .wbm-edit-form {
+  margin: 0;
+  padding: 0;
+}
+.wbm-app .wbm-edit-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.wbm-app .wbm-edit-form input,
+.wbm-app .wbm-edit-form select,
+.wbm-app .wbm-edit-form textarea {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+.wbm-app .wbm-edit-form .wbm-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+.wbm-app .wbm-edit-form .quill {
+  margin-bottom: 12px;
+}
+.wbm-app .wbm-edit-form .quill .ql-toolbar {
+  border: 1px solid #c3c4c7;
+  border-radius: 4px 4px 0 0;
+  background: #f9f9f9;
+  display: flex;
+  flex-wrap: wrap;
+}
+.wbm-app .wbm-edit-form .quill .ql-toolbar button {
+  background: transparent;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  padding: 4px 8px;
+  margin: 2px;
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+.wbm-app .wbm-edit-form .quill .ql-toolbar button:hover {
+  background: #e0e0e0;
+}
+.wbm-app .wbm-edit-form .quill .ql-toolbar button.ql-active {
+  color: #0073aa;
+  background: #e6f0fa;
+}
+.wbm-app .wbm-edit-form .quill .ql-toolbar button svg {
+  width: 18px;
+  height: 18px;
+  fill: #333;
+}
+.wbm-app .wbm-edit-form .quill .ql-toolbar button .ql-stroke {
+  stroke: #333;
+}
+.wbm-app .wbm-edit-form .quill .ql-toolbar button .ql-fill {
+  fill: #333;
+}
+.wbm-app .wbm-edit-form .quill .ql-toolbar .ql-formats {
+  display: flex;
+  align-items: center;
+  margin-right: 6px;
+}
+.wbm-app .wbm-edit-form .quill .ql-container {
+  border: 1px solid #c3c4c7;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  background: #fff;
+  min-height: 120px;
+}
+.wbm-app .wbm-edit-form .quill .ql-container .ql-editor {
+  padding: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 120px;
+}
+.wbm-app .wbm-edit-form .quill .ql-container .ql-editor.ql-blank::before {
+  color: #999;
+  font-style: italic;
+}
+.wbm-app .wbm-edit-form .quill:focus-within .ql-container {
+  border-color: #2271b1;
+  box-shadow: 0 0 0 1px #2271b1;
+}
+.wbm-app {
+  /* ------------------- Modal ------------------- */
+}
+.wbm-app .wbm-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+.wbm-app .wbm-modal-content {
+  width: 90%;
+  max-width: 700px;
+  max-height: 80vh;
+  background: #fff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.wbm-app .wbm-modal-content .wbm-modal-header {
+  padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  background: #0073aa;
+  color: #fff;
+  flex-shrink: 0;
+}
+.wbm-app .wbm-modal-content .wbm-modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+.wbm-app .wbm-modal-content .wbm-modal-footer {
+  padding: 12px 20px;
+  background: #f1f1f1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.wbm-app {
+  /* ------------------- Loader ------------------- */
+}
+.wbm-app .wbm-loader {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+.wbm-app .wbm-loader-row {
+  display: flex;
+  gap: 10px;
+}
+.wbm-app .wbm-loader-cell {
+  flex: 1;
+  height: 42px;
+  background: linear-gradient(-90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ------------------- Toasts ------------------- */
+/* Toast container (fixed at top-right corner) */
+.wbm-toast-container {
+  position: fixed;
+  min-height: 60px;
+  top: 60px;
+  right: 20px;
+  width: 300px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+  pointer-events: none; /* allow clicks to pass through container */
+}
+
+/* Individual toast */
+.wbm-toast {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  pointer-events: all; /* enable interaction on the toast itself */
+  animation: toastSlideIn 0.3s ease-out, toastFadeOut 0.3s ease-in 2.7s forwards;
+  position: relative;
+}
+
+/* Toast types */
+.wbm-toast-success {
+  background: #28a745;
+  color: white;
+}
+
+.wbm-toast-error {
+  background: #dc3545;
+  color: white;
+}
+
+.wbm-toast-info {
+  background: #0073aa;
+  color: white;
+}
+
+.wbm-toast-warning {
+  background: #f0ad4e;
+  color: #333;
+}
+
+/* Close button */
+.wbm-toast button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 10px;
+  line-height: 1;
+}
+
+.wbm-toast button:hover {
+  opacity: 0.7;
+}
+
+/* Animations */
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes toastFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+/* ------------------- Placeholder ------------------- */
+.wbm-placeholder {
+  min-height: 120px;
+  padding: 10px;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: text;
+  color: #999;
+}
+
+.ql-tooltip {
+  display: none !important;
+}
+
+.wbm-confirm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the popup */
+  background: #fff;
+  border-radius: 8px;
+  width: 360px;
+  max-width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 9999;
+  animation: confirmFadeIn 0.2s ease-out;
+}
+
+/* Header */
+.wbm-confirm-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #ddd;
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Optional close button */
+.wbm-confirm-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+}
+
+.wbm-confirm-close:hover {
+  color: #000;
+}
+
+/* Body */
+.wbm-confirm-body {
+  padding: 20px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* Footer */
+.wbm-confirm-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid #ddd;
+  background: #f7f7f7;
+}
+
+/* Buttons */
+.wbm-confirm-footer .button {
+  min-width: 80px;
+  cursor: pointer;
+}
+
+.wbm-confirm-footer .button-primary {
+  background-color: #0073aa;
+  color: #fff;
+  border: 1px solid #0073aa;
+}
+
+.wbm-confirm-footer .button-primary:hover {
+  background-color: #006799;
+  border-color: #006799;
+}
+
+.wbm-confirm-footer .button-secondary {
+  background-color: #f1f1f1;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.wbm-confirm-footer .button-secondary:hover {
+  background-color: #eaeaea;
+}
+
+/* Fade-in animation */
+@keyframes confirmFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -55%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/*# sourceMappingURL=style-index.css.map*/

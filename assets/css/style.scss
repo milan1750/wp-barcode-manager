@@ -1,0 +1,651 @@
+/* ------------------- Base ------------------- */
+.wbm-app {
+  font-family: "Inter", "Segoe UI", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  font-size: 14px;
+  color: #333;
+  background: #f9f9f9;
+  min-height: 100vh;
+  padding: 30px 40px;
+
+  h1,
+  h2,
+  h3 {
+    color: #0073aa;
+    margin-top: 0;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 20px 0 10px;
+  }
+
+  /* ------------------- Tabs ------------------- */
+  .wbm-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 25px;
+
+    button {
+      padding: 6px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px solid #ccc;
+      background: #f1f1f1;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover:not(.active) {
+        background: #e0e0e0;
+      }
+      &.active {
+        background: #0073aa;
+        color: #fff;
+        border-color: #0073aa;
+      }
+    }
+  }
+
+  /* ------------------- Buttons ------------------- */
+  .wbm-add-btn,
+  button {
+    padding: 6px 14px;
+    font-weight: 600;
+    font-size: 14px;
+    border: 1px solid #0073aa;
+    background: #0073aa;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #005f8d;
+      border-color: #005f8d;
+    }
+    &:disabled {
+      background: #ccc;
+      border-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    &.delete-btn {
+      background: #dc3232;
+      border-color: #dc3232;
+
+      &:hover {
+        background: #a52828;
+        border-color: #a52828;
+      }
+    }
+  }
+
+  /* ------------------- Import/Export ------------------- */
+  .wbm-import-export-tab {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .wbm-import-export-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+
+      .wbm-dropzone {
+        min-width: 250px;
+        min-height: 50px;
+        border: 2px dashed #0073aa;
+        border-radius: 6px;
+        padding: 20px;
+        text-align: left;
+        background: #fafafa;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+
+        &.dragging {
+          background: #e6f0fa;
+        }
+
+        p {
+          text-align: center;
+          margin: 4px 0 0;
+          font-size: 14px;
+          color: #333;
+        }
+      }
+
+      button {
+        padding: 0 50px;
+        border-radius: 10px;
+        margin: 0;
+      }
+    }
+
+    .wbm-table-wrapper {
+      width: 100%;
+      max-height: 600px; /* vertical scroll for long tables */
+      overflow-x: auto; /* horizontal scroll for wide tables */
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+
+    .wbm-table {
+      width: 100%;
+      min-width: 800px; /* prevent columns from collapsing */
+      border-collapse: collapse;
+      table-layout: fixed; /* evenly distribute column widths */
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px 12px;
+        font-size: 14px;
+        text-align: left;
+        vertical-align: top;
+        word-break: break-word;
+      }
+
+      th {
+        background: #f1f1f1;
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+      }
+
+      tr:nth-child(even) {
+        background: #f9f9f9;
+      }
+
+      tr:hover {
+        background: #f1f1f1;
+      }
+
+      button {
+        padding: 4px 10px;
+        font-size: 13px;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  /* ------------------- Table ------------------- */
+  .wbm-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .wbm-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    margin: 20px 0;
+    min-width: 800px;
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 10px 12px;
+      font-size: 14px;
+      text-align: left;
+      vertical-align: top;
+      word-break: break-word;
+    }
+
+    th {
+      background: #f1f1f1;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    tr:hover {
+      background: #f1f1f1;
+    }
+
+    button {
+      padding: 4px 10px;
+      font-size: 13px;
+      margin-right: 5px;
+    }
+  }
+
+  /* ------------------- Pagination ------------------- */
+  .wbm-pagination {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+
+    button {
+      padding: 4px 10px;
+      background: #0073aa;
+      color: #fff;
+      border: 1px solid #0073aa;
+      font-weight: 500;
+      font-size: 13px;
+      cursor: pointer;
+
+      &:hover:not(:disabled) {
+        background: #005f8d;
+        border-color: #005f8d;
+      }
+      &:disabled {
+        background: #ccc;
+        border-color: #ccc;
+        cursor: not-allowed;
+      }
+    }
+
+    span {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  /* ------------------- Forms ------------------- */
+  .wbm-edit-form {
+    margin: 0;
+    padding: 0;
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .wbm-form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .quill {
+      margin-bottom: 12px;
+
+      .ql-toolbar {
+        border: 1px solid #c3c4c7;
+        border-radius: 4px 4px 0 0;
+        background: #f9f9f9;
+        display: flex;
+        flex-wrap: wrap;
+
+        button {
+          background: transparent;
+          border: none;
+          color: #333;
+          cursor: pointer;
+          padding: 4px 8px;
+          margin: 2px;
+          border-radius: 3px;
+          transition: background 0.2s ease;
+
+          &:hover {
+            background: #e0e0e0;
+          }
+          &.ql-active {
+            color: #0073aa;
+            background: #e6f0fa;
+          }
+
+          svg {
+            width: 18px;
+            height: 18px;
+            fill: #333;
+          }
+          .ql-stroke {
+            stroke: #333;
+          }
+          .ql-fill {
+            fill: #333;
+          }
+        }
+
+        .ql-formats {
+          display: flex;
+          align-items: center;
+          margin-right: 6px;
+        }
+      }
+
+      .ql-container {
+        border: 1px solid #c3c4c7;
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+        background: #fff;
+        min-height: 120px;
+
+        .ql-editor {
+          padding: 10px;
+          font-family: inherit;
+          font-size: 14px;
+          line-height: 1.5;
+          min-height: 120px;
+          &.ql-blank::before {
+            color: #999;
+            font-style: italic;
+          }
+        }
+      }
+
+      &:focus-within .ql-container {
+        border-color: #2271b1;
+        box-shadow: 0 0 0 1px #2271b1;
+      }
+    }
+  }
+
+  /* ------------------- Modal ------------------- */
+  .wbm-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  }
+
+  .wbm-modal-content {
+    width: 90%;
+    max-width: 700px;
+    max-height: 80vh;
+    background: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .wbm-modal-header {
+      padding: 16px 20px;
+      font-size: 18px;
+      font-weight: 600;
+      background: #0073aa;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .wbm-modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .wbm-modal-footer {
+      padding: 12px 20px;
+      background: #f1f1f1;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+  }
+
+  /* ------------------- Loader ------------------- */
+  .wbm-loader {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .wbm-loader-row {
+    display: flex;
+    gap: 10px;
+  }
+  .wbm-loader-cell {
+    flex: 1;
+    height: 42px;
+    background: linear-gradient(-90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+  }
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+}
+
+/* ------------------- Toasts ------------------- */
+/* Toast container (fixed at top-right corner) */
+.wbm-toast-container {
+  position: fixed;
+  min-height: 60px;
+  top: 60px;
+  right: 20px;
+  width: 300px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+  pointer-events: none; /* allow clicks to pass through container */
+}
+
+/* Individual toast */
+.wbm-toast {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  pointer-events: all; /* enable interaction on the toast itself */
+  animation:
+    toastSlideIn 0.3s ease-out,
+    toastFadeOut 0.3s ease-in 2.7s forwards;
+  position: relative;
+}
+
+/* Toast types */
+.wbm-toast-success {
+  background: #28a745;
+  color: white;
+}
+
+.wbm-toast-error {
+  background: #dc3545;
+  color: white;
+}
+
+.wbm-toast-info {
+  background: #0073aa;
+  color: white;
+}
+
+.wbm-toast-warning {
+  background: #f0ad4e;
+  color: #333;
+}
+
+/* Close button */
+.wbm-toast button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 10px;
+  line-height: 1;
+}
+
+.wbm-toast button:hover {
+  opacity: 0.7;
+}
+
+/* Animations */
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toastFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ------------------- Placeholder ------------------- */
+.wbm-placeholder {
+  min-height: 120px;
+  padding: 10px;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: text;
+  color: #999;
+}
+
+.ql-tooltip {
+  display: none !important;
+}
+
+.wbm-confirm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the popup */
+  background: #fff;
+  border-radius: 8px;
+  width: 360px;
+  max-width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 9999;
+  animation: confirmFadeIn 0.2s ease-out;
+}
+
+/* Header */
+.wbm-confirm-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #ddd;
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Optional close button */
+.wbm-confirm-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+}
+
+.wbm-confirm-close:hover {
+  color: #000;
+}
+
+/* Body */
+.wbm-confirm-body {
+  padding: 20px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* Footer */
+.wbm-confirm-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid #ddd;
+  background: #f7f7f7;
+}
+
+/* Buttons */
+.wbm-confirm-footer .button {
+  min-width: 80px;
+  cursor: pointer;
+}
+
+.wbm-confirm-footer .button-primary {
+  background-color: #0073aa;
+  color: #fff;
+  border: 1px solid #0073aa;
+}
+
+.wbm-confirm-footer .button-primary:hover {
+  background-color: #006799;
+  border-color: #006799;
+}
+
+.wbm-confirm-footer .button-secondary {
+  background-color: #f1f1f1;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.wbm-confirm-footer .button-secondary:hover {
+  background-color: #eaeaea;
+}
+
+/* Fade-in animation */
+@keyframes confirmFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -55%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
