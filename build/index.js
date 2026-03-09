@@ -395,8 +395,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const editFields = ['Product', 'Label', 'Category1', 'Category2', 'Ingredients', 'AllergyAdvice 1 (inc May contain)', 'AllergyAdvice 2', 'Storage Information', 'Price', 'Eat In Price', 'BarcodeEAN13', 'PLU', 'Print Time'];
-
-// Fields that need rich text editor
 const richTextFields = ['Ingredients', 'AllergyAdvice 1 (inc May contain)', 'AllergyAdvice 2', 'Storage Information'];
 const defaultProduct = {
   id: null,
@@ -424,17 +422,19 @@ function ProductsTab() {
   const [totalPages, setTotalPages] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
   const [editingProduct, setEditingProduct] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   const [activeField, setActiveField] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
-  const perPage = 10;
   const [deleteId, setDeleteId] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   const [showConfirm, setShowConfirm] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [searchQuery, setSearchQuery] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('');
+  const perPage = 10;
+
+  // Fetch products whenever currentPage or searchQuery changes
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     const handler = setTimeout(() => {
-      setCurrentPage(1);
       fetchProducts();
-    }, 500);
+    }, 500); // debounce search
+
     return () => clearTimeout(handler);
-  }, [searchQuery]);
+  }, [currentPage, searchQuery]);
   const fetchProducts = async () => {
     setLoading(true);
     try {
@@ -508,15 +508,11 @@ function ProductsTab() {
       addToast(err.message || 'Save failed', 'error');
     }
   };
-
-  // Utility to render cell HTML safely
-  const renderCell = value => {
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      dangerouslySetInnerHTML: {
-        __html: value || '-'
-      }
-    });
-  };
+  const renderCell = value => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    dangerouslySetInnerHTML: {
+      __html: value || '-'
+    }
+  });
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wbm-product-tab"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -538,14 +534,8 @@ function ProductsTab() {
     placeholder: "Search products...",
     value: searchQuery,
     onChange: e => {
-      const val = e.target.value;
-      setSearchQuery(val);
-
-      // Only fetch if 3+ characters or empty
-      if (val.length === 0 || val.length >= 3) {
-        setCurrentPage(1);
-        fetchProducts();
-      }
+      setSearchQuery(e.target.value);
+      setCurrentPage(1); // reset to page 1 on search
     }
   })), loading ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wbm-loader"

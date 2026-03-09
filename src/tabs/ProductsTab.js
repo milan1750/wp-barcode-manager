@@ -20,7 +20,6 @@ const editFields = [
   'Print Time',
 ];
 
-// Fields that need rich text editor
 const richTextFields = [
   'Ingredients',
   'AllergyAdvice 1 (inc May contain)',
@@ -45,7 +44,6 @@ const defaultProduct = {
   'Print Time': '',
 };
 
-
 export default function ProductsTab() {
   const { addToast } = useToast();
   const [products, setProducts] = useState([]);
@@ -54,65 +52,65 @@ export default function ProductsTab() {
   const [totalPages, setTotalPages] = useState(1);
   const [editingProduct, setEditingProduct] = useState(null);
   const [activeField, setActiveField] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const perPage = 10;
-	const [deleteId, setDeleteId] = useState(null);
-const [showConfirm, setShowConfirm] = useState(false);
-const [searchQuery, setSearchQuery] = useState('');
 
+  // Fetch products whenever currentPage or searchQuery changes
   useEffect(() => {
-  const handler = setTimeout(() => {
-    setCurrentPage(1);
-    fetchProducts();
-  }, 500);
+    const handler = setTimeout(() => {
+      fetchProducts();
+    }, 500); // debounce search
 
-  return () => clearTimeout(handler);
-}, [searchQuery]);
+    return () => clearTimeout(handler);
+  }, [currentPage, searchQuery]);
 
   const fetchProducts = async () => {
-  setLoading(true);
-  try {
-    const params = new URLSearchParams({
-      page: currentPage,
-      per_page: perPage,
-      search: searchQuery,
-    });
+    setLoading(true);
+    try {
+      const params = new URLSearchParams({
+        page: currentPage,
+        per_page: perPage,
+        search: searchQuery,
+      });
 
-    const res = await fetch(`${WBM_API.url}products?${params}`, {
-      headers: { 'X-WP-Nonce': WBM_API.nonce },
-    });
+      const res = await fetch(`${WBM_API.url}products?${params}`, {
+        headers: { 'X-WP-Nonce': WBM_API.nonce },
+      });
 
-    if (!res.ok) throw new Error('Failed to fetch products');
-    const data = await res.json();
-    setProducts(data.data || []);
-    setTotalPages(data.total_pages || 1);
-  } catch (err) {
-    addToast(err.message || 'Error fetching products', 'error');
-  } finally {
-    setLoading(false);
-  }
-};
+      if (!res.ok) throw new Error('Failed to fetch products');
+      const data = await res.json();
+      setProducts(data.data || []);
+      setTotalPages(data.total_pages || 1);
+    } catch (err) {
+      addToast(err.message || 'Error fetching products', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
 
- const handleDelete = async () => {
-  if (!deleteId) return;
+  const handleDelete = async () => {
+    if (!deleteId) return;
 
-  try {
-    const res = await fetch(`${WBM_API.url}products/${deleteId}`, {
-      method: 'DELETE',
-      headers: { 'X-WP-Nonce': WBM_API.nonce },
-    });
+    try {
+      const res = await fetch(`${WBM_API.url}products/${deleteId}`, {
+        method: 'DELETE',
+        headers: { 'X-WP-Nonce': WBM_API.nonce },
+      });
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Delete failed');
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Delete failed');
 
-    addToast('Product deleted!', 'success');
-    fetchProducts();
-  } catch (err) {
-    addToast(err.message || 'Delete failed', 'error');
-  } finally {
-    setShowConfirm(false);
-    setDeleteId(null);
-  }
-};
+      addToast('Product deleted!', 'success');
+      fetchProducts();
+    } catch (err) {
+      addToast(err.message || 'Delete failed', 'error');
+    } finally {
+      setShowConfirm(false);
+      setDeleteId(null);
+    }
+  };
 
   const handleSave = async () => {
     if (!editingProduct.Product || !editingProduct.PLU) {
@@ -148,40 +146,40 @@ const [searchQuery, setSearchQuery] = useState('');
     }
   };
 
-  // Utility to render cell HTML safely
-  const renderCell = (value) => {
-    return <div dangerouslySetInnerHTML={{ __html: value || '-' }} />;
-  };
+  const renderCell = (value) => (
+    <div dangerouslySetInnerHTML={{ __html: value || '-' }} />
+  );
 
   return (
     <div className="wbm-product-tab">
-      <div className="wbm-top-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'left',gap: '1rem', marginBottom: '1rem' }}>
-  {/* Add Product Button */}
-  <button
-    className="wbm-add-btn"
-    onClick={() => setEditingProduct({ ...defaultProduct })}
-  >
-    Add Product
-  </button>
-  {/* Search Input */}
-  <input
-    type="text"
-    placeholder="Search products..."
-    value={searchQuery}
-    onChange={(e) => {
-      const val = e.target.value;
-      setSearchQuery(val);
+      <div
+        className="wbm-top-bar"
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'left',
+          gap: '1rem',
+          marginBottom: '1rem',
+        }}
+      >
+        <button
+          className="wbm-add-btn"
+          onClick={() => setEditingProduct({ ...defaultProduct })}
+        >
+          Add Product
+        </button>
 
-      // Only fetch if 3+ characters or empty
-      if (val.length === 0 || val.length >= 3) {
-        setCurrentPage(1);
-        fetchProducts();
-      }
-    }}
-  />
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setCurrentPage(1); // reset to page 1 on search
+          }}
+        />
+      </div>
 
-
-</div>
       {loading ? (
         <div className="wbm-loader">
           {Array.from({ length: perPage }).map((_, i) => (
@@ -230,9 +228,9 @@ const [searchQuery, setSearchQuery] = useState('');
                         <button
                           className="delete-btn"
                           onClick={() => {
-							setDeleteId(p.id);
-							setShowConfirm(true);
-							}}
+                            setDeleteId(p.id);
+                            setShowConfirm(true);
+                          }}
                         >
                           Delete
                         </button>
@@ -270,7 +268,6 @@ const [searchQuery, setSearchQuery] = useState('');
         </>
       )}
 
-      {/* Edit Modal */}
       {editingProduct && (
         <div className="wbm-modal">
           <div className="wbm-modal-content">
@@ -339,18 +336,18 @@ const [searchQuery, setSearchQuery] = useState('');
         </div>
       )}
 
-	  <ConfirmModal
-  isOpen={showConfirm}
-  title="Delete Product"
-  message="Are you sure you want to delete this product?"
-  confirmText="Delete"
-  cancelText="Cancel"
-  onConfirm={handleDelete}
-  onCancel={() => {
-    setShowConfirm(false);
-    setDeleteId(null);
-  }}
-/>
+      <ConfirmModal
+        isOpen={showConfirm}
+        title="Delete Product"
+        message="Are you sure you want to delete this product?"
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={handleDelete}
+        onCancel={() => {
+          setShowConfirm(false);
+          setDeleteId(null);
+        }}
+      />
     </div>
   );
 }
