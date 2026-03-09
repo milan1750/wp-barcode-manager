@@ -121,24 +121,78 @@ class RestApi {
 		if ( ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
 			return new \WP_Error( 'invalid_nonce', 'Invalid nonce', array( 'status' => 403 ) );
 		}
+
 		$page     = max( 1, (int) $request->get_param( 'page' ) );
 		$per_page = max( 1, (int) $request->get_param( 'per_page' ) );
+		$search   = sanitize_text_field( $request->get_param( 'search' ) );
 
-		$query = new \WP_Query(
-			array(
-				'post_type'      => 'sbm_product',
+		// If search is empty, fetch all products
+		if ( empty( $search ) ) {
+			$args = array(
+				'post_type'      => 'wbm_product',
 				'posts_per_page' => $per_page,
 				'paged'          => $page,
-			)
-		);
+			);
 
-		$data = array_map( fn( $post ) => self::map_post_to_array( $post ), $query->posts );
+			$query       = new \WP_Query( $args );
+			$posts       = $query->posts;
+			$total       = (int) $query->found_posts;
+			$total_pages = (int) $query->max_num_pages;
+		} else {
+			// Search by title
+			$args_title  = array(
+				'post_type'      => 'wbm_product',
+				'posts_per_page' => -1, // get all for search
+				's'              => $search,
+			);
+			$query_title = new \WP_Query( $args_title );
+
+			// Search by meta
+			$args_meta  = array(
+				'post_type'      => 'wbm_product',
+				'posts_per_page' => -1, // get all for search
+				'meta_query'     => array(
+					'relation' => 'OR',
+					array(
+						'key'     => 'PLU',
+						'value'   => $search,
+						'compare' => 'LIKE',
+					),
+					array(
+						'key'     => 'Category1',
+						'value'   => $search,
+						'compare' => 'LIKE',
+					),
+					array(
+						'key'     => 'Category2',
+						'value'   => $search,
+						'compare' => 'LIKE',
+					),
+					array(
+						'key'     => 'BarcodeEAN13',
+						'value'   => $search,
+						'compare' => 'LIKE',
+					),
+				),
+			);
+			$query_meta = new \WP_Query( $args_meta );
+
+			// Merge posts and remove duplicates
+			$posts = array_unique( array_merge( $query_title->posts, $query_meta->posts ), SORT_REGULAR );
+
+			// Manual pagination
+			$total       = count( $posts );
+			$total_pages = ceil( $total / $per_page );
+			$posts       = array_slice( $posts, ( $page - 1 ) * $per_page, $per_page );
+		}
+
+		$data = array_map( fn( $post ) => self::map_post_to_array( $post ), $posts );
 
 		return array(
 			'page'        => $page,
 			'per_page'    => $per_page,
-			'total'       => (int) $query->found_posts,
-			'total_pages' => (int) $query->max_num_pages,
+			'total'       => $total,
+			'total_pages' => $total_pages,
 			'data'        => $data,
 		);
 	}
@@ -172,7 +226,7 @@ class RestApi {
 		$post_id = wp_insert_post(
 			array(
 				'post_title'  => sanitize_text_field( $data['Product'] ),
-				'post_type'   => 'sbm_product',
+				'post_type'   => 'wbm_product',
 				'post_status' => 'publish',
 			)
 		);
@@ -314,7 +368,7 @@ class RestApi {
 
 			$existing = get_posts(
 				array(
-					'post_type'   => 'sbm_product',
+					'post_type'   => 'wbm_product',
 					'meta_key'    => 'PLU',
 					'meta_value'  => $plu,
 					'numberposts' => 1,
@@ -329,7 +383,7 @@ class RestApi {
 			) : wp_insert_post(
 				array(
 					'post_title'  => $title,
-					'post_type'   => 'sbm_product',
+					'post_type'   => 'wbm_product',
 					'post_status' => 'publish',
 				)
 			);
@@ -367,7 +421,7 @@ class RestApi {
 
 		$products = get_posts(
 			array(
-				'post_type'      => 'sbm_product',
+				'post_type'      => 'wbm_product',
 				'post_status'    => 'publish',
 				'posts_per_page' => -1,
 			)
@@ -544,7 +598,7 @@ class RestApi {
 			// Ensure uniqueness.
 			$existing = get_posts(
 				array(
-					'post_type'  => 'sbm_product',
+					'post_type'  => 'wbm_product',
 					'meta_key'   => 'BarcodeEAN13',
 					'meta_value' => $barcode,
 					'fields'     => 'ids',

@@ -92,6 +92,19 @@
   background: #a52828;
   border-color: #a52828;
 }
+.wbm-app .wbm-search input {
+  width: 300px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.wbm-app .wbm-search {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 15px;
+}
 .wbm-app {
   /* ------------------- Import/Export ------------------- */
 }

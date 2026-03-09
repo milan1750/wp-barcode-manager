@@ -427,13 +427,23 @@ function ProductsTab() {
   const perPage = 10;
   const [deleteId, setDeleteId] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   const [showConfirm, setShowConfirm] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [searchQuery, setSearchQuery] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('');
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    fetchProducts();
-  }, [currentPage]);
+    const handler = setTimeout(() => {
+      setCurrentPage(1);
+      fetchProducts();
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${WBM_API.url}products?page=${currentPage}&per_page=${perPage}`, {
+      const params = new URLSearchParams({
+        page: currentPage,
+        per_page: perPage,
+        search: searchQuery
+      });
+      const res = await fetch(`${WBM_API.url}products?${params}`, {
         headers: {
           'X-WP-Nonce': WBM_API.nonce
         }
@@ -509,12 +519,35 @@ function ProductsTab() {
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wbm-product-tab"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "wbm-top-bar",
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'left',
+      gap: '1rem',
+      marginBottom: '1rem'
+    }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "wbm-add-btn",
     onClick: () => setEditingProduct({
       ...defaultProduct
     })
-  }, "Add Product"), loading ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, "Add Product"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "text",
+    placeholder: "Search products...",
+    value: searchQuery,
+    onChange: e => {
+      const val = e.target.value;
+      setSearchQuery(val);
+
+      // Only fetch if 3+ characters or empty
+      if (val.length === 0 || val.length >= 3) {
+        setCurrentPage(1);
+        fetchProducts();
+      }
+    }
+  })), loading ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wbm-loader"
   }, Array.from({
     length: perPage

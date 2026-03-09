@@ -3,7 +3,7 @@
  * Plugin Name: WP Barcode Manager
  * Plugin URI:  https://milanmalla.com/wp-barcode-manager
  * Description: A WordPress plugin to generate barcodes for products.
- * Version:     1.0.0
+ * Version:     1.0.1
  * Author:      Milan Malla
  * Author URI:  https://milanmalla.com
  * License:     GPL-2.0-or-later

@@ -57,27 +57,40 @@ export default function ProductsTab() {
   const perPage = 10;
 	const [deleteId, setDeleteId] = useState(null);
 const [showConfirm, setShowConfirm] = useState(false);
+const [searchQuery, setSearchQuery] = useState('');
+
   useEffect(() => {
+  const handler = setTimeout(() => {
+    setCurrentPage(1);
     fetchProducts();
-  }, [currentPage]);
+  }, 500);
+
+  return () => clearTimeout(handler);
+}, [searchQuery]);
 
   const fetchProducts = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(
-        `${WBM_API.url}products?page=${currentPage}&per_page=${perPage}`,
-        { headers: { 'X-WP-Nonce': WBM_API.nonce } }
-      );
-      if (!res.ok) throw new Error('Failed to fetch products');
-      const data = await res.json();
-      setProducts(data.data || []);
-      setTotalPages(data.total_pages || 1);
-    } catch (err) {
-      addToast(err.message || 'Error fetching products', 'error');
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  try {
+    const params = new URLSearchParams({
+      page: currentPage,
+      per_page: perPage,
+      search: searchQuery,
+    });
+
+    const res = await fetch(`${WBM_API.url}products?${params}`, {
+      headers: { 'X-WP-Nonce': WBM_API.nonce },
+    });
+
+    if (!res.ok) throw new Error('Failed to fetch products');
+    const data = await res.json();
+    setProducts(data.data || []);
+    setTotalPages(data.total_pages || 1);
+  } catch (err) {
+    addToast(err.message || 'Error fetching products', 'error');
+  } finally {
+    setLoading(false);
+  }
+};
 
  const handleDelete = async () => {
   if (!deleteId) return;
@@ -142,13 +155,33 @@ const [showConfirm, setShowConfirm] = useState(false);
 
   return (
     <div className="wbm-product-tab">
-      <button
-        className="wbm-add-btn"
-        onClick={() => setEditingProduct({ ...defaultProduct })}
-      >
-        Add Product
-      </button>
+      <div className="wbm-top-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'left',gap: '1rem', marginBottom: '1rem' }}>
+  {/* Add Product Button */}
+  <button
+    className="wbm-add-btn"
+    onClick={() => setEditingProduct({ ...defaultProduct })}
+  >
+    Add Product
+  </button>
+  {/* Search Input */}
+  <input
+    type="text"
+    placeholder="Search products..."
+    value={searchQuery}
+    onChange={(e) => {
+      const val = e.target.value;
+      setSearchQuery(val);
 
+      // Only fetch if 3+ characters or empty
+      if (val.length === 0 || val.length >= 3) {
+        setCurrentPage(1);
+        fetchProducts();
+      }
+    }}
+  />
+
+
+</div>
       {loading ? (
         <div className="wbm-loader">
           {Array.from({ length: perPage }).map((_, i) => (

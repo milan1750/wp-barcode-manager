@@ -90,6 +90,20 @@
       }
     }
   }
+  .wbm-search input {
+    width: 300px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  .wbm-search {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+  }
 
   /* ------------------- Import/Export ------------------- */
   .wbm-import-export-tab {

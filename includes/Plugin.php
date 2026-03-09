@@ -101,4 +101,16 @@ class Plugin {
 			)
 		);
 	}
+
+	/**
+	 *
+	 * Plugin Activation.
+	 */
+	public static function activate() {
+		// Make sure the CPT is registered.
+		Cpt::register_product_cpt();
+
+		// Flush rewrite rules so permalinks work.
+		flush_rewrite_rules();
+	}
 }

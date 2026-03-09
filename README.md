@@ -12,7 +12,7 @@ like:
 - Underline
 - Text color
 
-The system stores products as a **custom post type (`sbm_product`)** and
+The system stores products as a **custom post type (`wbm_product`)** and
 uses **post meta** for product fields.
 
 ---
